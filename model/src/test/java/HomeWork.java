@@ -59,7 +59,7 @@ public class HomeWork {
         WebElement element = driver.findElement(By.id("searchNumber"));
         Assert.assertTrue(element.isDisplayed());
         logger.info("Найден элемент с id=searchNumber");
-        element.sendKeys("97"+ Keys.ENTER);  //ввод числа 97 в поисковую строку
+        element.sendKeys("97"+ Keys.ENTER);  //ввод числа 97 в поисковую строку и нажатие Enter
         logger.info("В поисковую строку введено значение 97");
     }
     public void waitPage() {
