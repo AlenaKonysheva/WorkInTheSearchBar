@@ -10,10 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-public class Tele2WebSiteTest {
+public class FindElementOnTheWebSiteTest {
 
     protected static WebDriver driver;
-    private Logger logger = LogManager.getLogger(Tele2WebSiteTest.class);
+    private Logger logger = LogManager.getLogger(FindElementOnTheWebSiteTest.class);
     private ConfigProperty cfg = ConfigFactory.create(ConfigProperty.class);
 
     @Before
@@ -33,7 +33,7 @@ public class Tele2WebSiteTest {
         logger.info("Tele2 web page opened with phone number selection");
         inputNumber();
         waitPage();
-
+        chooseFirstNumber();
     }
 
     public void inputNumber() {
@@ -55,7 +55,7 @@ public class Tele2WebSiteTest {
         element.click();
         logger.info("First item selected");
         ExpectedConditions.invisibilityOfElementLocated(By.className("info-modal tariff-selector-modal"));
-        logger.info("Prompt window pops up");
+        logger.info("Prompt window popped up");
     }
 
     @After
