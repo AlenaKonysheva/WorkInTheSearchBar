@@ -1,7 +1,10 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,10 +15,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-public class HomeWork {
+public class Tele2WebSiteTest {
 
     protected static WebDriver driver;
-    private Logger logger = LogManager.getLogger(HomeWork.class);
+    private Logger logger = LogManager.getLogger(Tele2WebSiteTest.class);
 
     @Before
     public void setUp() {
@@ -23,15 +26,6 @@ public class HomeWork {
         driver = new ChromeDriver();
         logger.info("Драйвер поднят");
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-    }
-
-    @Test
-    //Откройте сайт https://yandex.ru Разверните окно браузера на полный экран(не киоск) Проверьте title страницы
-    public void openPageYandex() {
-        driver.get("https://yandex.ru/");
-        logger.info("Открыта страница yandex");
-        driver.manage().window().maximize();
-        chekTitle();
     }
 
     public void chekTitle() {
