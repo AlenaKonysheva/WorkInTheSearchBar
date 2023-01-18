@@ -1,14 +1,9 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.junit.*;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,55 +14,55 @@ public class Tele2WebSiteTest {
 
     protected static WebDriver driver;
     private Logger logger = LogManager.getLogger(Tele2WebSiteTest.class);
+    private ConfigProperty cfg = ConfigFactory.create(ConfigProperty.class);
 
     @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        logger.info("Драйвер поднят");
+        logger.info("Driver up");
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
-    public void chekTitle() {
-
-        driver.navigate().to("https://yandex.ru/");
-        String actualTitle = driver.getTitle();
-        String expectedTitle = "Яндекс";
-        Assert.assertEquals(actualTitle, expectedTitle);
-        System.out.println("Page title is: " + driver.getTitle());
-        logger.info("Проверка title завершена");
-    }
-
     @Test
-    //Перейти на сайт теле2 страница https://msk.tele2.ru/shop/number
-    //Ввести в поле "поиск номера" 97 и начать поиск
-    //Дождаться появления номеров
+    //Go to the tele2 website page https://msk.tele2.ru/shop/number
+    //Enter "97" in the "number search" field and start searching
+    //Wait for numbers to appear
     public void openPageTele2() {
-        driver.get("https://msk.tele2.ru/shop/number");
-        logger.info("Открыта страница tele2 с выбором номера телефона");
+        driver.get(cfg.tele2Url() + "shop/number");
+        logger.info("Tele2 web page opened with phone number selection");
         inputNumber();
         waitPage();
+
     }
 
     public void inputNumber() {
         WebElement element = driver.findElement(By.id("searchNumber"));
         Assert.assertTrue(element.isDisplayed());
-        logger.info("Найден элемент с id=searchNumber");
-        element.sendKeys("97"+ Keys.ENTER);  //ввод числа 97 в поисковую строку и нажатие Enter
-        logger.info("В поисковую строку введено значение 97");
+        logger.info("Found element with id=searchNumber");
+        element.sendKeys("97" + Keys.ENTER);  //ввод числа 97 в поисковую строку и нажатие Enter
+        logger.info("Value entered in search string 97");
     }
+
     public void waitPage() {
         WebDriverWait wait = new WebDriverWait(driver, 5);//задано явное ожидание (5 сек)
-       wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("preloader-icon")));
-        logger.info("Ожидание элемента завершилось");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("preloader-icon")));
+        logger.info("Waiting for element ended");
+    }
 
+    public void chooseFirstNumber(){
+        WebElement element = driver.findElement(By.xpath("//*[@class='phone-number']"));
+        element.click();
+        logger.info("First item selected");
+        ExpectedConditions.invisibilityOfElementLocated(By.className("info-modal tariff-selector-modal"));
+        logger.info("Prompt window pops up");
     }
 
     @After
     public void setDown() {
         if (driver != null) {
             driver.quit();
-            logger.info("Драйвер завершил работу");
+            logger.info("Driver completed");
         }
     }
 }
